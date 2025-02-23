@@ -211,7 +211,8 @@ article p {
         <a href="#" >Business</a> 
         <a href="#">Entertainment</a>
         <a href="#">Sports</a>
-        <a href="#" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
+        <!-- add role and aria-label to the button -->
+        <a href="#" role="button" aria-label="Search site" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
 
       </nav>
     </div>
@@ -221,14 +222,18 @@ article p {
     <h2 class="offscreen">Top story</h2>
     <article class="main-story">
       <img class="pull-right" src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/cat.jpg?raw=true" alt="A cat staring menacingly off into space">
+
       <div class="info">
         <h3 class="headline">Study shows 9 out of 10 cats quietly judging their owners as they sleep</h3>
         <p>
           GRAND RAPIDS, MILorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-          aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">Read More</a>
-          
+          aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">Read More</a>      
         </p>
+
       </div>
+
+
+
     </article>
   
     <div class="side-by-side">
@@ -308,7 +313,7 @@ article p {
     function handleKeyPress(event) {
     if (event.key === "Enter" || event.key === " " || event.keyCode === 13 || event.keyCode === 32) {
         getFocus();
-        event.preventDefault(); // 防止页面滚动（空格键默认行为）
+        event.preventDefault(); // prevent the default action
     }
 }
     </script>
