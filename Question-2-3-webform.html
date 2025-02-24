@@ -28,6 +28,13 @@
     fieldset ul {
       margin: 0;
     }
+
+
+    .highlight {
+      border: 2px solid blue;
+      background-color: #f0f8ff;
+      padding: 10px;
+    }
   </style>
 </head>
 
@@ -45,14 +52,14 @@
       <div class="control">
         <!-- add for attribute to label  add red star into label and add required aria-required="true" aria-describedby="name-instructions" to input  add id="name-instructions" to span-->
         <label for="name">Full name<span class="required" aria-hidden="true">*</span></label><input id="name"
-          name="name" type="text" required aria-required="true" aria-describedby="name-instructions" />
+          name="name" type="text" aria-required="true" aria-describedby="name-instructions" />
         <span id="name-instructions">Please enter your full name.</span>
 
       </div>
       <div class="control">
         <!-- add for attribute to label  add red star into label and add required aria-required="true" aria-describedby="bio-instructions"to textarea  add id="bio-instructions" to span-->
         <label for="biography">Biography<span class="required" aria-hidden="true">*</span></label>
-        <textarea id="biography" name="biography" type="text" required aria-required="true"
+        <textarea id="biography" name="biography" type="text" aria-required="true"
           aria-describedby="bio-instructions"></textarea>
         <span id="bio-instructions">Include examples on your skills in JavaScript.</span>
       </div>
@@ -63,7 +70,7 @@
             aria-hidden="true">*</span></legend>
         <span id="gender-instructions">Please select your gender.</span>
         <div class="control">
-          <input id="gender_male" name="gender" type="radio" value="male" required />
+          <input id="gender_male" name="gender" type="radio" aria-required="true" value="male" />
           <!-- add for attribute to label -->
           <label for="gender_male">Male</label>
         </div>
@@ -80,7 +87,7 @@
             aria-hidden="true">*</span></legend>
         <span id="terms-instructions">You must accept the terms before submitting.</span>
         <div class="control">
-          <input id="accept_agbs" name="accept_agbs" type="checkbox" value="1" required aria-required="true"
+          <input id="accept_agbs" name="accept_agbs" type="checkbox" value="1" aria-required="true"
             aria-describedby="terms-instructions" />
           <label for="accept_agbs">I accept the terms and conditions</label>
         </div>
@@ -106,6 +113,7 @@
 
       $.urlParam = function (name) {
         var results;
+        console.log(`window.location.href: ${window.location.href}`);
         results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
 
         if (results === null) {
@@ -119,7 +127,9 @@
         var $elementToDescribe, $error, $errorContainer, $fieldset, $input, $referencedElement, value;
         $input = $('[name="' + input + '"]');
         // add value == '' to check if the value is empty
-        if ((value = $.urlParam(input)) === null || value.trim() == '') {
+        value = $.urlParam(input)
+        console.log(`input: ${input}, value: ${value}`);
+        if (value === null || value.trim() == '') {
           if ($('fieldset.errors').length === 0) {
             $('form').prepend('<fieldset class="errors"><legend>Errors</legend><ul></ul></fieldset>');
           }
@@ -137,9 +147,11 @@
             $referencedElement = $input;
           }
           // R.G. hint: fix next line ;)
-          $error = $('<a>' + message + '</a>');
+          // $error = $('<a>' + message + '</a>'); fix this line to add message to the link
+          $error = $('<a></a>').text(message).attr('href', '#');
           $error.click(function (e) {
             // If we rely on the link's href pointing to the input's ID, it doesn't trigger forms mode in screen readers
+            // focus on the referenced element, when the element is input[button] or input[select] it will trigger by keyboard but not by mouse
             $referencedElement.focus();
             return e.preventDefault();
           });
@@ -148,9 +160,11 @@
 
           if ($(':not(form):focus').length === 0) {
             // See https://stackoverflow.com/questions/46134247/jquery-setting-focus-doesnt-work-in-ie11/
+            if ($referencedElement !== null) { // check if the element is not null
+              $referencedElement.focus(); // focus on the element
+            }
 
           }
-          return false;
         } else {
           if ($input.is(':checkbox')) {
             $input.attr('checked', true);
@@ -162,42 +176,21 @@
             return $input.val(value);
           }
         }
-        return true;
 
       };
 
       $(document).ready(function () {
-        
-        if ($.urlParam('validate')) {
 
+        if ($.urlParam('validate')) { // if the form should be validated
           validateInput('name', 'Please enter your name!');
           validateInput('biography', 'Please tell us something about your history!');
           validateInput('gender', 'Please tell us your gender!');
           validateInput('accept_agbs', 'You must accept our terms and conditions!');
           // fix the next line from .error to .errors 
           if ($('.errors').length === 0) {
-            return alert('All inputs are valid.');
+            alert('All inputs are valid.');
           }
         }
-
-        $('form').on('submit', function (event) {
-          event.preventDefault();
-          $('fieldset.errors').remove();
-
-          if ($.urlParam('validate')) {
-
-            validateInput('name', 'Please enter your name!');
-            validateInput('biography', 'Please tell us something about your history!');
-            validateInput('gender', 'Please tell us your gender!');
-            validateInput('accept_agbs', 'You must accept our terms and conditions!');
-            // fix the next line from .error to .errors 
-            if ($('.errors').length === 0) {
-                return alert('All inputs are valid.');
-            }e
-          }
-
-        });
-
 
       });
     }).call(void 0);
