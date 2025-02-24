@@ -306,6 +306,8 @@ article p {
   
   <script>
     function getFocus() {
+      event.preventDefault(); // prevent the default action
+
       window.open('https://aidaform.com/templates/thank-you-page-with-redirects.html','mywindow').focus()
     }
 
@@ -313,7 +315,6 @@ article p {
     function handleKeyPress(event) {
     if (event.key === "Enter" || event.key === " " || event.keyCode === 13 || event.keyCode === 32) {
         getFocus();
-        event.preventDefault(); // prevent the default action
     }
 }
     </script>

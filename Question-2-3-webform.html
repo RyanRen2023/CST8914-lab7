@@ -118,8 +118,8 @@
       validateInput = function validateInput(input, message) {
         var $elementToDescribe, $error, $errorContainer, $fieldset, $input, $referencedElement, value;
         $input = $('[name="' + input + '"]');
-
-        if ((value = $.urlParam(input)) === null) {
+        // add value == '' to check if the value is empty
+        if ((value = $.urlParam(input)) === null || value.trim() == '') {
           if ($('fieldset.errors').length === 0) {
             $('form').prepend('<fieldset class="errors"><legend>Errors</legend><ul></ul></fieldset>');
           }
@@ -150,6 +150,7 @@
             // See https://stackoverflow.com/questions/46134247/jquery-setting-focus-doesnt-work-in-ie11/
 
           }
+          return false;
         } else {
           if ($input.is(':checkbox')) {
             $input.attr('checked', true);
@@ -161,9 +162,12 @@
             return $input.val(value);
           }
         }
+        return true;
+
       };
 
       $(document).ready(function () {
+        
         if ($.urlParam('validate')) {
 
           validateInput('name', 'Please enter your name!');
@@ -175,6 +179,26 @@
             return alert('All inputs are valid.');
           }
         }
+
+        $('form').on('submit', function (event) {
+          event.preventDefault();
+          $('fieldset.errors').remove();
+
+          if ($.urlParam('validate')) {
+
+            validateInput('name', 'Please enter your name!');
+            validateInput('biography', 'Please tell us something about your history!');
+            validateInput('gender', 'Please tell us your gender!');
+            validateInput('accept_agbs', 'You must accept our terms and conditions!');
+            // fix the next line from .error to .errors 
+            if ($('.errors').length === 0) {
+                return alert('All inputs are valid.');
+            }e
+          }
+
+        });
+
+
       });
     }).call(void 0);
 
