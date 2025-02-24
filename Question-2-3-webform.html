@@ -66,17 +66,17 @@
       <!-- group radio buttons with fieldset -->
       <fieldset class="radio-group">
         <!-- add tabindex to legend and add id to span and add for attribute to label add required to input -->
-        <legend tabindex="0" aria-describedby="gender-instructions">Gender<span class="required"
+        <legend tabindex="0" aria-describedby="gender-instructions"  >Gender<span class="required"
             aria-hidden="true">*</span></legend>
         <span id="gender-instructions">Please select your gender.</span>
         <div class="control">
-          <input id="gender_male" name="gender" type="radio" aria-required="true" value="male" />
+          <input id="gender_male" name="gender" type="radio" value="male" aria-required="true"/>
           <!-- add for attribute to label -->
           <label for="gender_male">Male</label>
         </div>
 
         <div class="control">
-          <input id="gender_female" name="gender" type="radio" value="female" />
+          <input id="gender_female" name="gender" type="radio" value="female" aria-required="true"/>
           <!-- add for attribute to label -->
           <label for="gender_female">Female</label>
         </div>
